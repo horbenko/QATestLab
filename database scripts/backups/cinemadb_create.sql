@@ -35,7 +35,7 @@ CREATE TABLE MOVIE (
     director varchar(256)  NULL,
     "cast" varchar(1024)  NULL,
     description text  NULL,
-    duration_min int  NULL,
+    durationMin int  NULL,
     CONSTRAINT MOVIE_pk PRIMARY KEY (id)
 );
 

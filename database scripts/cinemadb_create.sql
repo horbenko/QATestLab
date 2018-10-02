@@ -1,3 +1,5 @@
+-- tables
+-- Table: APP_USER
 CREATE TABLE APP_USER (
     id serial  NOT NULL,
     sso_id varchar(30)  NOT NULL,
@@ -12,23 +14,18 @@ CREATE TABLE APP_USER (
 INSERT INTO public.APP_USER(sso_id, password, first_name, last_name, email)
 VALUES ('Roman','$2a$10$6t5dcvMst.Eo4r4XlIK6GO.JGqM2qprFrYT/2trJ4t3Bt3dkA4ury', 'Roman','Horbenko','romanich1987@meta.ua');;
 
+-- Table: APP_USER_TO_USER_PROFILE
 CREATE TABLE APP_USER_TO_USER_PROFILE (
     app_user_id int  NOT NULL,
     user_profile_id int  NOT NULL
 );
 
+-- Populate JOIN Table, set ADMIN role to user Roman.
 INSERT INTO APP_USER_TO_USER_PROFILE (user_id, user_profile_id)
   SELECT user.id, profile.id FROM app_user user, user_profile profile
   where user.sso_id='Roman' and profile.type='ADMIN';;
 
-CREATE TABLE PERSISTENT_LOGINS (
-    username varchar(30)  NOT NULL,
-    series varchar(64)  NOT NULL,
-    token varchar(64)  NOT NULL,
-    last_used timestamp  NOT NULL,
-    CONSTRAINT PERSISTENT_LOGINS_pk PRIMARY KEY (series)
-);
-
+-- Table: AUDITORIUM
 CREATE TABLE AUDITORIUM (
     id serial  NOT NULL,
     name varchar(30)  NOT NULL,
@@ -36,6 +33,7 @@ CREATE TABLE AUDITORIUM (
     CONSTRAINT AUDITORIUM_pk PRIMARY KEY (id)
 );
 
+-- Table: MOVIE
 CREATE TABLE MOVIE (
     id serial  NOT NULL,
     title varchar(256)  NOT NULL,
@@ -46,25 +44,37 @@ CREATE TABLE MOVIE (
     CONSTRAINT MOVIE_pk PRIMARY KEY (id)
 );
 
+-- Table: PERSISTENT_LOGINS
+CREATE TABLE PERSISTENT_LOGINS (
+    username varchar(30)  NOT NULL,
+    series varchar(64)  NOT NULL,
+    token varchar(64)  NOT NULL,
+    last_used timestamp  NOT NULL,
+    CONSTRAINT PERSISTENT_LOGINS_pk PRIMARY KEY (series)
+);
+
+-- Table: RESERVATION
 CREATE TABLE RESERVATION (
     id int  NOT NULL,
     screening_id int  NOT NULL,
-    employee_reserved_id int  NULL,
+    app_user_reserved_id int  NULL,
     reservation_type_id int  NULL,
     reservation_contact varchar(1024)  NOT NULL,
     reserved bool  NULL,
-    employee_paid_id int  NULL,
-    paid bool  NULL,
-    active bool  NOT NULL,
+    app_user_paid_id int  NULL,
+    is_paid bool  NULL,
+    is_active bool  NOT NULL,
     CONSTRAINT RESERVATION_pk PRIMARY KEY (id)
 );
 
+-- Table: RESERVATION_TYPE
 CREATE TABLE RESERVATION_TYPE (
     id serial  NOT NULL,
     reservation_type varchar(30)  NOT NULL,
     CONSTRAINT RESERVATION_TYPE_pk PRIMARY KEY (id)
 );
 
+-- Table: SCREENING
 CREATE TABLE SCREENING (
     id serial  NOT NULL,
     movie_id int  NOT NULL,
@@ -74,6 +84,7 @@ CREATE TABLE SCREENING (
     CONSTRAINT SCREENING_pk PRIMARY KEY (id)
 );
 
+-- Table: SEAT
 CREATE TABLE SEAT (
     id serial  NOT NULL,
     row int  NOT NULL,
@@ -82,6 +93,7 @@ CREATE TABLE SEAT (
     CONSTRAINT SEAT_pk PRIMARY KEY (id)
 );
 
+-- Table: SEAT_RESERVED
 CREATE TABLE SEAT_RESERVED (
     id serial  NOT NULL,
     seat_id int  NOT NULL,
@@ -90,12 +102,14 @@ CREATE TABLE SEAT_RESERVED (
     CONSTRAINT SEAT_RESERVED_pk PRIMARY KEY (id)
 );
 
+-- Table: USER_PROFILE
 CREATE TABLE USER_PROFILE (
     id serial  NOT NULL,
     type varchar(30)  NOT NULL DEFAULT USER,
     CONSTRAINT USER_PROFILE_pk PRIMARY KEY (id)
 );
 
+-- Populate USER_PROFILE Table
 INSERT INTO USER_PROFILE(type)
 VALUES ('USER');
   
@@ -202,6 +216,5 @@ ALTER TABLE SEAT_RESERVED ADD CONSTRAINT Seat_reserved_Seat
     INITIALLY IMMEDIATE
 ;
 
-commit;
-
+-- End of file.
 

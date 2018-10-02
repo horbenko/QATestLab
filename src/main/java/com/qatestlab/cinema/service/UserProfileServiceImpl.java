@@ -1,14 +1,12 @@
 package com.qatestlab.cinema.service;
 
-import java.util.List;
-
+import com.qatestlab.cinema.dao.UserProfileDao;
+import com.qatestlab.cinema.model.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.qatestlab.cinema.dao.UserProfileDao;
-import com.qatestlab.cinema.model.UserProfile;
-
+import java.util.List;
 
 @Service("userProfileService")
 @Transactional
@@ -28,4 +26,5 @@ public class UserProfileServiceImpl implements UserProfileService{
 	public List<UserProfile> findAll() {
 		return dao.findAll();
 	}
+
 }

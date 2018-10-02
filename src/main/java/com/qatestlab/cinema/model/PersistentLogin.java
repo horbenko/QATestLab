@@ -1,30 +1,25 @@
 package com.qatestlab.cinema.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 @Entity
-@Table(name="PERSISTENT_LOGINS")
+@Table(name = "PERSISTENT_LOGINS")
 public class PersistentLogin implements Serializable{
 
 	@Id
 	private String series;
 
-	@Column(name="USERNAME", unique=true, nullable=false)
+	@Column(name = "USERNAME", unique = true, nullable = false, length = 30)
 	private String username;
 	
-	@Column(name="TOKEN", unique=true, nullable=false)
+	@Column(name = "TOKEN", unique = true, nullable = false, length = 64)
 	private String token;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date last_used;
+	@Column(name = "LAST_USED")
+	private Date lastUsed;
 
 	public String getSeries() {
 		return series;
@@ -50,12 +45,12 @@ public class PersistentLogin implements Serializable{
 		this.token = token;
 	}
 
-	public Date getLast_used() {
-		return last_used;
+	public Date getLastUsed() {
+		return lastUsed;
 	}
 
-	public void setLast_used(Date last_used) {
-		this.last_used = last_used;
+	public void setLastUsed(Date last_used) {
+		this.lastUsed = last_used;
 	}
 	
 	

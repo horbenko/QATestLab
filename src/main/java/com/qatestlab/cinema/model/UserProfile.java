@@ -1,22 +1,16 @@
 package com.qatestlab.cinema.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Entity
-@Table(name="USER_PROFILE")
+@Table(name = "USER_PROFILE")
 public class UserProfile implements Serializable{
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;	
 
-	@Column(name="TYPE", length=15, unique=true, nullable=false)
+	@Column(name = "TYPE", length = 15, unique = true, nullable = false)
 	private String type = UserProfileType.USER.getUserProfileType();
 	
 	public Integer getId() {
@@ -70,8 +64,5 @@ public class UserProfile implements Serializable{
 	public String toString() {
 		return "UserProfile [id=" + id + ", type=" + type + "]";
 	}
-
-
-
 
 }

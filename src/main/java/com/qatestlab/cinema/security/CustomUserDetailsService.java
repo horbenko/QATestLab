@@ -1,8 +1,8 @@
 package com.qatestlab.cinema.security;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.qatestlab.cinema.model.User;
+import com.qatestlab.cinema.model.UserProfile;
+import com.qatestlab.cinema.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.qatestlab.cinema.model.User;
-import com.qatestlab.cinema.model.UserProfile;
-import com.qatestlab.cinema.service.UserService;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service("customUserDetailsService")
@@ -27,12 +26,12 @@ public class CustomUserDetailsService implements UserDetailsService{
 	@Autowired
 	private UserService userService;
 	
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String ssoId)
 			throws UsernameNotFoundException {
 		User user = userService.findBySSO(ssoId);
 		logger.info("User : {}", user);
-		if(user==null){
+		if(user == null){
 			logger.info("User not found");
 			throw new UsernameNotFoundException("Username not found");
 		}
@@ -40,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 				 true, true, true, true, getGrantedAuthorities(user));
 	}
 
-	
+
 	private List<GrantedAuthority> getGrantedAuthorities(User user){
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
